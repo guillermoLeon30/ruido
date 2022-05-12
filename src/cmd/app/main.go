@@ -1,10 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 
 	"github.com/guillermoLeon30/ruido/src/domain/datos"
+	"github.com/guillermoLeon30/ruido/src/domain/ft"
 )
 
 func main() {
@@ -24,6 +26,19 @@ func main() {
 	// Graficar
 	graficaSvg := filepath.Join(dir, "out", "grafica.html")
 	err = datos.Graficar(graficaSvg)
+	if err != nil {
+		panic(err)
+	}
+
+	// Fourier
+	dataFt := ft.NewFt(datos)
+	for _, data := range dataFt {
+		fmt.Println(data.I, ": ", data.Magnitud, " - ", data.Angulo)
+	}
+
+	// Graficar Fourier
+	graficaF := filepath.Join(dir, "out", "fourier.html")
+	err = dataFt.GraficarManitud(graficaF)
 	if err != nil {
 		panic(err)
 	}
