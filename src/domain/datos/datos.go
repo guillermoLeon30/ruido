@@ -61,6 +61,22 @@ func (ds Datos) Graficar(path string) error {
 	}
 
 	line := charts.NewLine()
+
+	line.SetGlobalOptions(
+		charts.WithTitleOpts(opts.Title{
+			Title: "Data Sensor",
+		}),
+		charts.WithDataZoomOpts(opts.DataZoom{
+			Type: "inside",
+		}),
+		charts.WithDataZoomOpts(opts.DataZoom{
+			Type: "slider",
+		}),
+		charts.WithXAxisOpts(opts.XAxis{
+			Name: "us",
+		}),
+	)
+
 	line.SetXAxis(x).
 		AddSeries("sensor", items)
 
