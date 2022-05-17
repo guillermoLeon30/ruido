@@ -90,3 +90,35 @@ func (ds Datos) Graficar(path string) error {
 
 	return nil
 }
+
+func (ds Datos) GraficaToRender() *charts.Line {
+	x := make([]float64, 0)
+	items := make([]opts.LineData, 0)
+
+	for _, dato := range ds {
+		x = append(x, dato.TimeUs)
+		items = append(items, opts.LineData{Value: dato.Value})
+	}
+
+	line := charts.NewLine()
+
+	line.SetGlobalOptions(
+		charts.WithTitleOpts(opts.Title{
+			Title: "Data Sensor",
+		}),
+		charts.WithDataZoomOpts(opts.DataZoom{
+			Type: "inside",
+		}),
+		charts.WithDataZoomOpts(opts.DataZoom{
+			Type: "slider",
+		}),
+		charts.WithXAxisOpts(opts.XAxis{
+			Name: "us",
+		}),
+	)
+
+	line.SetXAxis(x).
+		AddSeries("sensor", items)
+
+	return line
+}
