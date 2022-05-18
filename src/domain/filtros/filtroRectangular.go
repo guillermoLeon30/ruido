@@ -1,4 +1,4 @@
-package filtrorectangular
+package filtros
 
 import (
 	"math/cmplx"

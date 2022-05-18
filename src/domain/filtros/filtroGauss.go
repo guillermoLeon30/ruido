@@ -1,4 +1,4 @@
-package filtrogauss
+package filtros
 
 import (
 	"math"

@@ -9,8 +9,7 @@ import (
 	"github.com/go-echarts/go-echarts/v2/charts"
 	"github.com/go-echarts/go-echarts/v2/components"
 	"github.com/guillermoLeon30/ruido/src/domain/datos"
-	filtrogauss "github.com/guillermoLeon30/ruido/src/domain/filtro_gauss"
-	filtrorectangular "github.com/guillermoLeon30/ruido/src/domain/filtro_rectangular"
+	"github.com/guillermoLeon30/ruido/src/domain/filtros"
 	"github.com/guillermoLeon30/ruido/src/domain/ft"
 	"github.com/jedib0t/go-pretty/v6/table"
 )
@@ -48,7 +47,7 @@ func main() {
 	imprimirDataFrecuancias(dataFreq2)
 
 	// Calculo Filtro Rectangular
-	dataFiltroRect := filtrorectangular.NewFiltroRectangular(dataFt, dataFreq1, dataFreq2)
+	dataFiltroRect := filtros.NewFiltroRectangular(dataFt, dataFreq1, dataFreq2)
 	grafica := filepath.Join(dir, "out", "res_filtro_rect.html")
 	err = crearGraficas(
 		grafica,
@@ -63,7 +62,7 @@ func main() {
 	}
 
 	// Calculo Filtro Gauss
-	dataFiltroGauss := filtrogauss.NewFiltroGauss(dataFt, dataFreq1, dataFreq2, freq1_1, freq2_1, freqc_1, freq1_2, freq2_2, freqc_2)
+	dataFiltroGauss := filtros.NewFiltroGauss(dataFt, dataFreq1, dataFreq2, freq1_1, freq2_1, freqc_1, freq1_2, freq2_2, freqc_2)
 	dirGrafica := filepath.Join(dir, "out", "res_filtro_gauss.html")
 	err = crearGraficas(
 		dirGrafica,
