@@ -122,3 +122,13 @@ func (ds Datos) GraficaToRender() *charts.Line {
 
 	return line
 }
+
+func (ds Datos) GetValues() []float64 {
+	values := make([]float64, 0)
+
+	for _, dato := range ds {
+		values = append(values, dato.Value)
+	}
+
+	return values
+}

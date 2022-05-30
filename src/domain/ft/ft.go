@@ -114,7 +114,41 @@ func (fs Fts) GraficaManitudToRender() *charts.Line {
 
 	line.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{
-			Title: "Fourier",
+			Title: "Fourier Magnitud",
+		}),
+		charts.WithDataZoomOpts(opts.DataZoom{
+			Type: "inside",
+		}),
+		charts.WithDataZoomOpts(opts.DataZoom{
+			Type: "slider",
+		}),
+		charts.WithXAxisOpts(opts.XAxis{
+			Name: "Hz",
+		}),
+	)
+
+	line.SetXAxis(x).
+		AddSeries("sensor", items)
+
+	return line
+}
+
+func (fs Fts) GraficaAnguloToRender() *charts.Line {
+	x := make([]float64, 0)
+	items := make([]opts.LineData, 0)
+
+	for _, dato := range fs {
+		x = append(x, float64(dato.Angulo))
+		items = append(items, opts.LineData{
+			Value: dato.Magnitud,
+		})
+	}
+
+	line := charts.NewLine()
+
+	line.SetGlobalOptions(
+		charts.WithTitleOpts(opts.Title{
+			Title: "Fourier Angulo",
 		}),
 		charts.WithDataZoomOpts(opts.DataZoom{
 			Type: "inside",

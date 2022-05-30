@@ -42,9 +42,9 @@ func main() {
 	// Separacion de graficas
 	dataFreq1 := dataFt.GetPartialWithFreq(freq1_1.Hz, freq2_1.Hz)
 	dataFreq2 := dataFt.GetPartialWithFreq(freq1_2.Hz, freq2_2.Hz)
-	imprimirDataFrecuancias(dataFreq1)
+	imprimirDataFrecuancias("Primer Pico", dataFreq1)
 	fmt.Println("")
-	imprimirDataFrecuancias(dataFreq2)
+	imprimirDataFrecuancias("Segundo Pico", dataFreq2)
 
 	// Calculo Filtro Rectangular
 	dataFiltroRect := filtros.NewFiltroRectangular(dataFt, dataFreq1, dataFreq2)
@@ -97,8 +97,10 @@ func imprimirCalculosFrecuencias(f1 float64, f2 float64, fq1 ft.Ft, fq2 ft.Ft, f
 	t.Render()
 }
 
-func imprimirDataFrecuancias(datos ft.Fts) {
+func imprimirDataFrecuancias(titulo string, datos ft.Fts) {
+	rowConfigAutoMerge := table.RowConfig{AutoMerge: true}
 	t := table.NewWriter()
+	t.AppendHeader(table.Row{titulo, titulo, titulo, titulo}, rowConfigAutoMerge)
 	t.AppendHeader(table.Row{"Id", "Magnitud", "Angulo (ª)", "Frecuencia (HZ)"})
 	for _, dato := range datos {
 		t.AppendRow(table.Row{
