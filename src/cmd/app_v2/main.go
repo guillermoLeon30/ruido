@@ -10,6 +10,7 @@ import (
 	"github.com/go-echarts/go-echarts/v2/charts"
 	"github.com/go-echarts/go-echarts/v2/components"
 	"github.com/guillermoLeon30/ruido/src/domain/datos"
+	"github.com/guillermoLeon30/ruido/src/domain/filtros"
 	"github.com/guillermoLeon30/ruido/src/domain/ft"
 )
 
@@ -31,21 +32,41 @@ func main() {
 	periodo := 1 / (12.5 * math.Pow10(-6))
 	fourier := ft.NewFourier(datos, periodo)
 
-	f1, f2, fc := fourier.Calcular(8000, 13000)
+	_, _, fc := fourier.Calcular(8000, 13000)
 	bw := 2500 // BW mediante inspeccion de grafica (Hz)
 
-	fmt.Println("f1: ", f1)
-	fmt.Println("f2: ", f2)
 	fmt.Println("fc: ", fc)
-	fmt.Println("BW: ", f2-f1)
 	fmt.Println("BW2: ", bw)
 
-	// Graficar
+	fRec2 := filtros.NewFiltroRectangular2(fourier, fc, float64(bw))
+	fourier.Inversa(fRec2.Coef)
+
+	// Grafica Rectangular
 	grafica := filepath.Join(dir, "out", "res_filtro_rect_v2.html")
 	err = crearGraficas(
 		grafica,
 		datos.GraficaToRender(),
 		fourier.GraficaTotalToRender(),
+		fRec2.GraficaFiltroToRender(),
+		fRec2.GraficaEspectroFrecuencia(),
+		fourier.GraficaInversaToRender(),
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	// Grafica Gauss
+	fGauss2 := filtros.NewFiltroGauss2(fourier, fc, float64(bw))
+	fourier.Inversa(fGauss2.Coef)
+
+	grafica = filepath.Join(dir, "out", "res_filtro_gauss_v2.html")
+	err = crearGraficas(
+		grafica,
+		datos.GraficaToRender(),
+		fourier.GraficaTotalToRender(),
+		fGauss2.GraficaFiltroToRender(),
+		fGauss2.GraficaEspectroFrecuencia(),
+		fourier.GraficaInversaToRender(),
 	)
 	if err != nil {
 		panic(err)
